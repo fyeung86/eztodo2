@@ -1,0 +1,3 @@
+{
+  "test_flaskr.py::FlaskrTestCase::test_insert_and_update": true
+}
