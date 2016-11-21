@@ -25,10 +25,12 @@ user = 'ubuntu'
 password = 'cs207password'
 host = 'localhost'
 port = '5432'
-db = 'ubuntu' 
+db = 'ubuntu'
 url = 'postgresql://{}:{}@{}:{}/{}'
-url = url.format(user, password, host, port, db)
-app.config['SQLALCHEMY_DATABASE_URI'] = url # 'sqlite:////tmp/tasks.db'
+# Posgres uri
+potgres_uri = url.format(user, password, host, port, db)
+# SQlite uri
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/tasks.db'
 db = SQLAlchemy(app)
 db.create_all()
 
@@ -45,6 +47,10 @@ class Task(db.Model):
     def to_dict(self):
         return dict(action=self.action, task_id=self.task_id)
 
+@app.route('/home', methods=['GET'])
+def get_home_spa():
+    log.info('Getting Home html')
+    return send_from_directory('static', os.path.join('html', 'home.html'))
 
 @app.route('/tasks', methods=['GET'])
 def get_all_tasks():
